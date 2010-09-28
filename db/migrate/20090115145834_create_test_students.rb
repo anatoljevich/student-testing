@@ -1,6 +1,6 @@
 class CreateTestStudents < ActiveRecord::Migration
   def self.up
-    group = Group.create({:spec => 'TEST', :number => 1})
+    group = Group.create({:spec => 'TEST'.to_s, :number => 1})
     group.students.create({:surname => 'Иванов', :name => 'Иван', :parent_name => 'Иванович', :code => '00000001' })
     group.students.create({:surname => 'Петров', :name => 'Петр', :parent_name => 'Петрович', :code => '00000002' })
     group.students.create({:surname => 'Алексеев', :name => 'Алексей', :parent_name => 'Алексеевич', :code => '00000003' })
