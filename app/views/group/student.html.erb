@@ -1,0 +1,17 @@
+<div style='width:50%'>
+<h3>Изменить данные студента, группа <%= h @student.group.name %></h3>
+<%= error_messages_for 'student' %>
+<%form_for(:student, @student, :url => {:action => 'edit_student', :id => @student})  do |form|%>
+	<%=form.hidden_field :group_id%>
+	<label style="display:block">№ зачетной книжки</label>
+	<%=form.text_field :code, {:style => "width: 100%;display:block;"}%>
+	<label style="display:block">Фамилия</label>
+	<%=form.text_field :surname, {:style => "width: 100%;display:block;"}%>
+	<label style="display:block">Имя</label>
+	<%=form.text_field :name, {:style => "width: 100%;display:block;"}%>
+	<label style="display:block">Отчество</label>
+	<%=form.text_field :parent_name, {:style => "width: 100%;display:block;"}%>
+	<input type="submit" value="Ok">
+	<%=link_to "Отмена", {:action => 'group', :id => @student.group_id}%>
+<%end%>
+</div>

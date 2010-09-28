@@ -1,0 +1,2 @@
+<% @students = [] if @students.nil? %>
+<%= select :student,:student_id, @students.collect { |s| [s.fio, s.id] }, {:include_blank => '- Выберите Ф.И.О. -'} %>

@@ -1,0 +1,20 @@
+<div style='width:300px'>
+<h3>Редактирование темы '<%= @topic.name %>' ( дисциплина: <%= h @topic.discipline.name %> )</h3>
+<%= error_messages_for 'topic' %>
+<%form_for(:topic, @topic, :url => {:action => 'update_topic', :id => @topic})  do |form|%>
+	<p>
+	<label style="display:block">Название</label>
+	<%=form.text_field :name, {:style => "width: 100%;display:block;"}%>
+	</p>
+	<p>
+	<% if @topic.can_change_rights? %>
+		<%=form.check_box :public %>	
+	<% else %>
+		<%=form.check_box :public, {:disabled => true} , @topic.public, @topic.public %>	
+	<% end %>
+	<label>Включить общий доступ</label>
+	</p>
+	<%= submit_tag 'Сохранить'%>
+	<%=link_to "Отмена", {:action => 'index'}%>
+<%end%>
+</div>

@@ -1,0 +1,60 @@
+<% unless @topic.editable? %>
+<div class="unactive_button">Добавить вопрос</div>
+<% else %>
+<% form_tag (url_for(:controller => 'editor', :action => 'add_question')) do %>
+<%= hidden_field_tag :id, @topic.id %>
+<%= link_to '<div class="button">Добавить вопрос</div>', '', :onclick => "($(this)).up('form').submit();return false;", :class => 'add_link' %>
+<select name='type' style='float:right;'> 
+	<% Tests::Config::question_types.each {
+		|key, value|
+	%>
+	<option value="<%= h key %>"><%= h value %></option>
+	<%}%>
+</select>
+<% end %>
+<% end %>
+<%= link_to 'Назад', {:action => 'index'}%>
+<h3 class='title'>Дисциплина: <%= h @topic.discipline.name %>, тема: <%= h @topic.name%>
+<% if @topic.editable? %>
+(<%= link_to 'Изменить', { :action => 'edit_topic', :id => @topic }, :class => 'blueLink mediumFont' %>)
+<% end %>
+</h3>
+
+<% unless @topic.editable? %>
+<h4 class='unactive_info'><%= h @topic.status_message %></h4>
+<% end %>
+<% form_tag url_for({:action => 'copy_questions'}) do%>
+<table class='main_t wide'>
+<tr><th width="10px"></th><th>Вопрос</th><th>Текст</th><th>Автор</th><th></th></tr>
+<%for q in @questions%>
+<tr>
+	<td><%= check_box_tag "questions[]", q.id %></td>
+	<td><%= link_to q.name, {:action => 'question', :id => q.id}, :class => 'blueLink' %></td>
+	<td><%= truncate q.text, 60 %></td>
+	<td><%= h (q.author ? q.author.fio : "-") %></td>	
+	<td>
+		<% unless @topic.editable? %>
+		<span class='unactive_link'>Удалить</span>
+		<% else %>
+		<%= link_to 'Удалить', {:action => 'delete_question', :id => q}, :confirm => 'Удалить вопрос?', :class => 'blueLink'%>
+		<% end %>
+	</td>
+</tr>
+<%end%>
+</table>
+<br>
+<%= link_to '<div class="button">Копировать</div>', '', :onclick => "($(this)).up('form').submit();return false;", :class => 'add_link' %>
+<select name="id" style="float:right;">
+	<option value="-1">- Выберите тему -</option>
+	<% for disc in @disciplines
+		sel = disc.id == @topic.discipline_id 
+	%>
+		<optgroup label="<%=h disc.name %>">
+		<% for tp in disc.topics %>
+		    <option value="<%= tp.id %>"><%=h tp.name %></option>
+		<% end %>
+		</optgroup>
+	<% end %>
+</select>
+<% end %>
+

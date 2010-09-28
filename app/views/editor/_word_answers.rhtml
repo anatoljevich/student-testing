@@ -1,0 +1,15 @@
+<%
+for answer in @answers do
+%> 
+	<div style="display:block">
+	<%= text_field_tag 'answers[]', answer.text, {:disabled => !@topic.editable?, :style => "width: 80%", :onkeyup => 'blockComma($(this));'}%>
+	<% unless @topic.editable? %>
+		<span class='unactive_link'>Удалить</span>
+	<% else %>
+		<a href='javascript:;' onclick='removeAnswer($(this.parentNode))' >Удалить</a>
+	<% end %>
+	</div>
+<%
+end
+%>
+

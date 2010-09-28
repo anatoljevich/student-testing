@@ -1,0 +1,16 @@
+<%= link_to '<div class="button">Добавить группу</div>', {:action => 'new_group'}, :class => 'add_link' %>
+<h3 class='title'>Выберите группу</h3>
+<table class='main_t wide'>
+<tr><th>Название</th><th width='100px'>Численность</th><th width='150px'></th></tr>
+<%for g in @groups%>
+<tr>
+	<td>
+		<%= link_to(g.name, {:action => 'group', :id => g}, :class => 'blueLinkLarge') %>
+	</td>
+	<td><%= g.students_count%></td>
+	<td><%= link_to '<div class="button">Добавить студента</div>', {:action => 'new_student', :id => g}, :class => 'add_link' %></td>
+</tr>
+<%end%>
+</table>
+
+

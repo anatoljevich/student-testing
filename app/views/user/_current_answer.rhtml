@@ -1,0 +1,8 @@
+<h3 style='text-align:center;font-size:13px'>
+<% if @examEntity.answered? %>
+<div id='errorExplanation'>Вы уже ответили на этот вопрос (вопрос <%=h @examEntity.qnumber+1 %> из <%=h @examEntity.number_of_questions%> )</div>
+<% else %>
+<div><%= select_task_header(@question) %> (вопрос <%=h @examEntity.qnumber+1 %> из <%=h @examEntity.number_of_questions%> )</div>
+<% end %>
+</h3>
+<%= select_question_template(@question) %>

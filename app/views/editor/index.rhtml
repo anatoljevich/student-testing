@@ -1,0 +1,19 @@
+<%= link_to '<div class="button">Добавить дисциплину</div>', {:action => 'new_discipline'}, :class => 'add_link' %>
+<h3 class='title'>Выберите дисциплину</h3>
+<table class='main_t wide'>
+<tr><th>Название</th><th width='200px'></th></tr>
+<%for d in @disciplines%>
+<tr>
+	<td>
+		<%= link_to(d.name, {:action => '#'}, :onclick => "Effect.toggle('exam_topics_"+d.id.to_s+"');return false;", :class => 'blueLinkLarge') %>
+		<ul id='exam_topics_<%=d.id%>' style='display:none;'>
+<% for t in d.topics %>
+<li><%= link_to "#{t.name}(#{t.questions_count})", {:action => 'topic', :id => t}, :class => 'blueLink' %></li>
+<% end %>
+		</ul>
+	</td>
+	<td><%= link_to '<div class="button">Добавить тему</div>', {:action => 'new_topic', :id => d.id}, :class => 'add_link' %></td>
+</tr>
+<%end%>
+</table>
+

@@ -1,0 +1,47 @@
+<h3>Статистика по вопросам</h3>
+<div class='statMenuContainer'>
+	<%= render :partial => 'menu'%>	
+</div>
+
+<div class='floatLeft'>
+	<table>
+		<tr><td>
+			<div class="reportBar">
+			<% form_tag :action => 'question_report' do %>
+				<span>Период от </span>
+				<%= calendar_date_select_tag "start_date", Date.today, :popup => :force, :year_range => 3.years.ago..0.years.ago, :name => 'stat_report[start_date]', :size => 10, :value => (@stat_report ? @stat_report.start_date : (Date.today-10).strftime("%d.%m.%Y") ) %> 
+				
+				<span style='margin:0px 12px'>до</span>
+				<%= calendar_date_select_tag "finish_date", Date.today, :popup => :force, :year_range => 3.years.ago..0.years.ago, :name => 'stat_report[finish_date]', :size => 10, :value => (@stat_report ? @stat_report.finish_date : Date.today.strftime("%d.%m.%Y") ) %> 
+				
+				<span style='margin-left:12px'>Экзамен:</span>
+				<%= select_with_all Exam, :description, :stat_report,:id %>
+		
+				<span style='margin-left:12px'>Группа:</span>
+				<%= select_with_all Group, :name, :stat_report, :group_id %>
+		
+				<%= submit_tag 'Отчет', {:style => 'display:inline;margin-left:12px'} %>
+			<% end %>
+			</div>
+		</td></tr>
+
+		<% if @stat_report%>
+		<% result = @stat_report.by_questions%>
+		<tr><td>
+			<table class='main_t' width="100%">
+				<tr><th>Вопрос</th><th>Успешных ответов</th><th>Всего ответов</th><th>%</th></tr>
+				<% result.each { |r| 
+					 percent = (r[1][1]*100/(r[1][1] + r[1][2])).round
+				%>
+				<tr>
+					<td><%= link_to  r[1][0], { :controller => 'editor', :action => 'question', :id => r[0]}, :class => 'blueLink' %></td>
+					<td><%= r[1][1]%></td>
+					<td><%= r[1][1] + r[1][2]%></td>
+					<td width="100px"><%= progress_bar(percent) %></td>
+				</tr>
+				<% } %>
+			</table>
+		</td></tr>
+		<% end %>
+	</table>
+</div>

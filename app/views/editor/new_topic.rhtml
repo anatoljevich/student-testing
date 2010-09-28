@@ -1,0 +1,16 @@
+<div style='width:300px'>
+<h3>Создать новую тему для дисциплины '<%= @discipline.name %>'</h3>
+<%= error_messages_for 'disc' %>
+<%form_for(:topic, @topic, :url => {:action => 'add_topic', :id => @discipline})  do |form|%>
+	<p>
+	<label style="display:block">Название</label>
+	<%=form.text_field :name, {:style => "width: 100%;display:block;"}%>
+	</p>
+	<p>
+	<%=form.check_box :public, {:checked => true} %>
+	<label>Включить общий доступ</label>
+	</p>
+	<%= submit_tag 'Сохранить'%>
+	<%=link_to "Отмена", {:action => 'index'}%>
+<%end%>
+</div>

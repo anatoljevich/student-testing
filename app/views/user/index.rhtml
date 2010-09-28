@@ -1,0 +1,35 @@
+<h3>Список доступных тестов</h3>
+<table class='main_t' width='100%'>
+<tr>
+	<th>Описание</th>
+	<th>Список тем</th>
+	<th width='100px'>Время, мин</th>
+	<th width='100px'>Балл, %</th>
+	<th width='100px'></th>
+</tr>
+<%
+for exam in @exams
+%>
+<tr>
+	<td><%=exam.description%></td>
+	<td>
+	<ul>
+		<% for et in exam.examTopics%>
+		<% topic = et.topic%>
+		<li><%= h topic.discipline.name%>, <%= h topic.name%></li>
+		<% end %>
+	</ul>
+	</td>
+	<td><%=exam.duration%></td>
+	<td><%=exam.passing_score%></td>
+	<td>
+		
+		<%= link_to "Старт", {:action => 'agreement', :id => exam.id}, :popup => ["Тестирование","toolbar=no, location=no, menubar=no, resizable=1, scrollbars=1"], :class => 'blueLink' %></td>
+		<!--
+		<form method='POST' action="<%=url_for :action => 'agreement', :id => exam %>"><input type="submit" value="Старт"></form>
+		-->
+</tr>
+<%
+end
+%>
+</table>

@@ -1,0 +1,39 @@
+<%= link_to '<div class="button">Добавить тест</div>', {:action => 'new'}, :class => 'add_link'%>
+<h3>Список тестов</h3>
+<table class='main_t wide'>
+<tr>
+	<th>Дисциплина</th>
+	<th width='300px'>Описание</th>
+	<th>Тип</th>
+	<th>Вопросов</th>
+	<th>Время, мин</th>
+	<th>Балл, %</th>
+	<th>Записей</th>
+	<th></th>
+	<th></th>
+</tr>
+<%
+for exam in @exams
+sum = 0
+exam.examTopics.each {|t| sum += t.count}
+%>
+<tr>
+	<td><%= h discipline_names(exam) %></td>
+	<td><%= link_to h(exam.description), {:controller => 'report', :action => 'show', :id => exam}, :class => 'blueLink'%></td>
+	<td><%= h Tests::Config::exam_variants[exam.exam_variant]%></td>
+	<td><%= sum %></td>
+	<td><%= exam.duration%></td>
+	<td><%= exam.passing_score%></td>
+	<td><%= exam.examEntities.size%></td>
+	<td>
+		<%= link_to 'Изменить', {:action => 'edit', :id => exam}, :class => 'blueLink' %>
+		<span style="padding:0px 2px;">|</span>
+		<%= link_to 'Удалить', {:action => 'delete', :id => exam}, :confirm => 'Удалить экзамен?', :class => 'blueLink'%>
+	</td>
+	<td><form method='POST' action="<%=url_for :action => 'start_stop', :id => exam %>"><input type="submit" value="<%= exam.active ? 'Стоп' : 'Старт' %>"></form></td>
+</tr>
+<%
+end
+%>
+
+</table>

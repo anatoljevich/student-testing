@@ -1,0 +1,45 @@
+<div class='exam_topic'>
+<% fields_for "exam[topic_attributes][]", exam_topic do |exam_topic_form|%>
+<div style='border: 1px solid #808080; padding:10px; margin-bottom:5px;'>
+
+<div>
+	<label style='display:block;'>Дисциплина и тема</label>	
+	<select onchange='updateTopics($(this));'>
+		<option value=''></option>
+		<% for d in Discipline.find(:all, :order => 'name ASC') %>
+		<option value='<%= d.id%>' <%= "selected" if exam_topic.topic && d.id == exam_topic.topic.discipline_id%> ><%= h d.name %></option>
+		<% end %>
+	</select> 
+	<span class='topic_box' style='margin-left:10px;display:none;'>
+	<select name='exam[topic_attributes][][topic_id]'>
+		<% items = (exam_topic.topic.nil? ? [] : Topic.find_all_by_discipline_id(exam_topic.topic.discipline_id)) 
+		for item in items do %>
+		<option value='<%=item.id%>' <%= "selected" if item.id == exam_topic.topic_id %> ><%=item.name%></option>
+		<% end %>
+	</select>
+	</span>
+</div>
+
+<div>
+	<%= exam_topic_form.text_field :count, :index => nil %>
+	<label>Количество вопросов (1..100)</label>		
+</div>
+<div>
+	<%= exam_topic_form.text_field :passing_score, :index => nil %>
+	<label>Положительный результат (10..100)</label>		
+</div>
+<div>
+	<input type="checkbox" class="important_checkbox" <%= exam_topic && exam_topic.important ? "checked" : "" %> onclick="setImportantFlag(this)" name="flag" />
+	<%=exam_topic_form.hidden_field :important, :index => nil, :class => 'important_flag' %>	
+	<label>Требовать положительного результата</label>
+</div>
+	<% if exam_topic.new_record? %>
+		<%= link_to_function "Удалить", "$(this).up('.exam_topic').remove()", :style => 'float:right;margin-top:-10px;' %>	
+	<% else %>
+		<%= link_to_function "Удалить", "mark_for_destroy($(this))", :style => 'float:right;margin-top:-10px;' %>			
+		<%= exam_topic_form.hidden_field :should_destroy, :index => nil, :class => 'should_destroy' %>		
+		<%= exam_topic_form.hidden_field :id, :index => nil %>
+	<% end %>
+</div>
+<% end %>
+</div>

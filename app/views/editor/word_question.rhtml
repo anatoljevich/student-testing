@@ -1,0 +1,54 @@
+<script type='text/javascript'>
+	var answers_count = <%=@question.get_answers.size%>;
+	function addWordAnswer(){
+		answers_count += 1;
+		cnt = answers_count - 1;
+		new Ajax.Request('/editor/add_word_answer', 
+			{
+				asynchronous:true, 
+				evalScripts:true,
+				parameters: {count: cnt, multi: true},
+			    onFailure: function(){ alert('Javascript Error') },
+				onLoading: function(){ show_loading()},
+				onComplete: function() {hide_loading()}
+			}); 
+		return false;				
+	};
+	function removeAnswer(a){
+		if (confirm("Удалить вариант ответа?")) {
+			a.remove();
+			answers_count = 0;
+			$A($('saveQuestionForm').getElementsByClassName('answers')).each(
+				function(item){
+					item.value = answers_count;
+					answers_count += 1;
+				});
+		}
+		return false;
+	};
+</script>
+<%= error_messages_for 'question' %>
+<%form_for(:question, @question, :url => {:action => 'save_question', :id => @question}, :html => { :id => 'saveQuestionForm'} )  do |form|%>
+	<% unless @topic.editable? %>
+	<h4 class='unactive_info'><%= h @topic.status_message %></h4>
+	<% end %>
+	<label style="display:block">Название</label>
+	<%=form.text_field :name, {:disabled => !@topic.editable?, :style => "width: 100%"}%>
+	<%= hidden_field_tag :type, 'WordQ'%>	
+	<%=form.hidden_field :topic_id%>
+	<label style="display:block">Текст вопроса</label>
+	<%=form.text_area :text, {:disabled => !@topic.editable?, :style => "width: 100%;height: 100px"}%>
+	<%= render :partial => 'question_preview_link'%>	
+	<label style="display:block">Ответы</label>
+	<div style="width:100%" id="answers">
+		<%= render :partial => 'word_answers'%>
+	</div>
+	<% unless @topic.editable? %>
+	<div class='unactive_button'>Добавить ответ</div>
+	<%else%>
+	<a href='javascript:;' onclick='addWordAnswer()' class='add_link'><div class='button'>Добавить ответ</div></a>
+	<% end %>
+	<br/>
+	<%= submit_tag 'Сохранить', {:disabled => !@topic.editable? }%>
+	<%=link_to "Отмена", {:action => 'topic', :id => @question.topic_id}%>
+<%end%>

@@ -1,0 +1,61 @@
+<%= link_to 'Версия для печати', {:action => 'print', :id => @exam}, :popup => true, :class => 'add_link' %>
+<h4 style='text-align:center'>
+	Дисциплина :<%= h discipline_names @exam %>  (<%=h @exam.description%>)
+</h4>
+<table border='0' width='100%'><tr>
+	<td width='20%'  style='vertical-align:top;'>
+		<%= link_to 'Назад', {:controller => 'exam'}%>
+		<h4>Фильтр по дате</h4>
+	  <% form_tag url_for(:action => 'show', :id => @exam) do %>
+		<table>
+			<tr><td>День</td><td>Мес</td><td>Год</td></tr>
+			<tr>
+				<td><input type=text size=2 name='day' value='<%=@date.day%>'/></td>
+				<td><input type=text size=2 name='month' value='<%= @date.month%>'/></td>
+				<td><input type=text size=4 name='year' value='<%= @date.year%>'/></td>
+			</tr>
+			<tr><td colspan=3 align=center>
+				<select style="width:100%;" name='condition'>
+					<option value='0' <%= session[:report_cond]=='=' ? 'selected' : '' %>>=</option>
+					<option value='1' <%= session[:report_cond]=='<' ? 'selected' : '' %>>&lt</option>
+					<option value='2' <%= session[:report_cond]=='>' ? 'selected' : '' %>>&gt</option>
+				</select></td>
+			</tr>
+			<tr><td colspan=3 align=center><%= submit_tag 'Показать' %></td></tr>
+		</table>
+		<% end %>
+		<br/>	
+		<h4>Удалить записи</h4>
+	  <% form_tag url_for(:action => 'clear', :id => @exam) do %>
+		<table>
+			<tr><td>День</td><td>Мес</td><td>Год</td></tr>
+			<tr>
+				<td><input type=text size=2 name='day' value='<%=@date.day%>'/></td>
+				<td><input type=text size=2 name='month' value='<%= @date.month%>'/></td>
+				<td><input type=text size=4 name='year' value='<%= @date.year%>'/></td>
+			</tr>
+			<tr><td colspan=3 align=center><%= submit_tag 'Удалить', :onclick => 'return confirm("Удалить записи старше указанной даты?")' %></td></tr>
+		</table>
+		<% end %>	
+	</td>
+	<td width='80%' valign='top'>
+		<table width="100%">
+		<tr><th>Студент</th><th>Группа</th><th>Статус</th><th>Дата</th><th>% по темам</th><th>Средний %</th><th>Оценка</th><th></th></tr>
+		<% for entity in @entities%>
+		<tr>
+			<td><%= h entity.student.fio %></td>
+			<td><%= h entity.group.name %></td>
+			<td><%= entity.complete ? 'завершен' : 'тестируется'%></td>
+			<td><%= entity.created_at.strftime("%d.%m.%y") %></td>
+			<td><%= (entity.passed_percent) if entity.complete %></td>
+			<td><%= (entity.average) if entity.complete %></td>
+			<td><%= score(entity) if entity.complete %></td>
+			<td><%= link_to('показать', {:action => 'details', :id => entity}, :class => 'blueLink') if entity.complete %></td>
+		</tr>
+		<% end %>
+		</table>
+		<div style="width:100%;text-align:center;padding-top:10px;"><%= render :partial => 'paginator'%></div>
+	</td>
+</tr></table>
+
+

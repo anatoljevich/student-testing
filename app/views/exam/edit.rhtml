@@ -1,0 +1,18 @@
+<table width='100%'>
+	<tr><td width='30%'>&nbsp</td>
+	<td>
+<div style='width:100%'>
+<% if @exam.active %>
+<h4 class='unactive_info'>Невозможно редактировать активный тест</h4>
+<% end %>
+
+<h3>Редактировать тест</h3>
+<%= error_messages_for 'exam'%>
+<%form_for(:exam, @exam, :url => {:action => 'update', :id => @exam}, :html => { :id => 'updateExamForm'} )  do |form|%>
+	<%= render :partial => 'exam_fields', :locals => { :form => form } %>
+<%end%>
+</div>		
+	</td>
+	<td width='30%'>&nbsp</td></tr>
+</table>
+<%= javascript_include_tag 'dynamic_topics.js'%>

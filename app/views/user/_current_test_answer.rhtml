@@ -1,0 +1,20 @@
+<div class='question'><%= textilize @question.text %></div>
+<% form_remote_tag_loading :url => { :action => 'answer' },:html => { :id => 'saveAnswerForm'}, :before => 'isAnswerSelected("saveAnswerForm");' do%>
+<table>
+<%
+  answers_indexes = @answers.collect {|x| @answers.index(x)}  
+	for i in 0...@answers.size
+        random_index = answers_indexes[rand(answers_indexes.size)]
+        random_answer = @answers[random_index]
+        answers_indexes.delete random_index
+%>
+<tr>
+	<td><%= random_answer.text %></td>
+	<td>
+		<%= @question.multivariant ? check_box_tag('answers[]', random_index, false,{:disabled => @examEntity.answered?, :class => 'check_or_radio'}) : radio_button_tag('answers[]', random_index, false,{:disabled => @examEntity.answered?, :class => 'check_or_radio'})%>
+	</td>
+</tr>
+<%  end  %>	
+</table>
+<%= render :partial => 'question_paginator'%>
+<% end %>

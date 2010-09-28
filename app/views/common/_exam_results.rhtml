@@ -1,0 +1,16 @@
+<% result = evaluate_result(@examEntity) %>
+<h3 class="<%= result ? 'successFont' : 'failFont' %>">Тест <%= result ? 'успешно ' : 'не ' %>пройден</h3>
+<div>Затрачено <%=h @examEntity.minutes_left  %> из <%=h @examEntity.exam.duration%> мин</div><br/>
+<div>Ваш результат по темам <%=h @examEntity.passed_percent%>% (<%=h @examEntity.success_topics%> из <%=h @examEntity.total_topics %> тем)</div>
+<div>
+	<ul>
+	<% for res in @examEntity.examEntityResults %>
+	<li><span <%= res.important_fail ? "class='importantFail'" : ""%> ><%= h res.topic.name %>: <%= res.percent %>% (<%= res.correct %> из <%= res.total%>)</span></li>
+	<% end %>
+	</ul>
+</div>
+<div>Средний результат <%= @examEntity.average %>%</div><br/>
+<% if ["b","c"].include?(@examEntity.exam_variant) %>
+<div>Оценка: <%= @examEntity.score %></div>
+<% end %>
+

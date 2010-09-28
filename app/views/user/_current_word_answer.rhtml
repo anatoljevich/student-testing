@@ -1,0 +1,9 @@
+<div class='question'><%= textilize @question.text %></div>
+<% form_remote_tag_loading :url => { :action => 'answer' },:html => { :id => 'saveAnswerForm'} do%>
+<table>
+<tr>
+	<td><%= text_field_tag('answers[]', '', {:disabled => @examEntity.answered?, :onkeyup => 'blockComma($(this));' })%></td>
+</tr>
+</table>
+<%= render :partial => 'question_paginator'%>
+<% end %>

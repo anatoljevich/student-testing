@@ -1,0 +1,15 @@
+<table width='100%' style='margin-top:10px'>
+<tr><td align=center>
+	<% if @examEntity.first_question? %>
+		<span class='questionPaginatorFont'>Предыдущий</span>
+	<% else %>
+		<%= link_to_remote_loading 'Предыдущий', {:url => {:action => 'previous_answer'}}, {:class => 'blueLink'} %>
+	<% end %>
+	&nbsp| <%= submit_tag 'Ответить', { :disabled => @examEntity.answered? } %>  |&nbsp 
+	<% if @examEntity.last_question? %>
+		<span class='questionPaginatorFont'>Следующий</span>	
+	<% else %>
+		<%= link_to_remote_loading 'Следующий', {:url => {:action => 'next_answer'}}, {:class => 'blueLink'} %>	
+	<% end %>
+</td></tr>
+</table>

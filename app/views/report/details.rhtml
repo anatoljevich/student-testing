@@ -1,0 +1,42 @@
+<%= link_to 'Назад', {:action => 'show', :id => @examEntity.exam_id}%>
+<br/>
+<h4>Студент: <%= h @examEntity.student.fio %></h4>
+<%= render :partial => 'common/exam_results'%>
+<br/>
+<table cellpadding='4'>
+<% for i in 0...@report.size %>
+<% rep = @report[i]%>
+<tr><td colspan=2><div style='margin-top:10px;'>Тема: <%= h rep.topic%></div><div>Вопрос: <%= textilize rep.text%></div></td></tr>
+<tr>
+	<td <%= rep.considered ? "class='considered'" : "class='uncorrect'" %>><div>Ответ студента:</div><ul>
+		<% for ua in rep.user_answer %>
+			<li><%= h ua %></li>
+		<%end%>
+	</ul></td>
+	<td class='correct'><div>Правильный ответ:</div><ul>
+		<span class='report_comment'><%= h rep.comments%></span>
+		<% for ca in rep.correct_answer %>
+			<li><%= h ca %></li>
+		<%end%>
+	</ul>
+	</td>
+</tr>
+<tr>
+	<td colspan='2' align='center'>
+		<% unless rep.considered %>
+			<% form_tag url_for(:action => 'set_consider') do%>
+			<%= hidden_field_tag :number, i %>
+			<%= hidden_field_tag :id, @examEntity.id %>
+			<%= submit_tag "Засчитать"%>
+			<%end%>
+		<% else %>
+			<% form_tag url_for(:action => 'unset_consider') do%>
+			<%= hidden_field_tag :number, i %>
+			<%= hidden_field_tag :id, @examEntity.id %>
+			<%= submit_tag "Отменить"%>
+			<%end%>
+		<% end %>
+	</td>
+</tr>
+<% end %>
+</table>

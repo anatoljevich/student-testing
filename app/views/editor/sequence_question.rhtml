@@ -1,0 +1,78 @@
+<script type='text/javascript'>
+	<% 
+	seq_count = 0
+	@question.get_answers.each{|a| seq_count += 1  if a.value.to_i != 0 }
+	%>
+	var sequence_number = <%= seq_count + 1%>;
+	function addAnswer(){
+		new Ajax.Request('/editor/add_seq_answer', 
+			{
+				asynchronous:true, 
+				evalScripts:true,
+			    onFailure: function(){ alert('Javascript Error') },
+				onLoading: function(){ show_loading()},
+				onComplete: function() {hide_loading()}
+			}); 
+		return false;				
+	};
+	function removeAnswer(a){
+		if (confirm("Удалить вариант ответа?")) {
+			clearAnswers();
+			a.remove();
+		}
+		return false;
+	};
+	function selectSeqAnswer(a) {
+		if (a.checked) {
+			a.value = sequence_number;
+			a.previous('.sequence_number').innerHTML = sequence_number;
+			sequence_number++;
+
+		} else 
+		{
+			clearAnswers();
+		}
+	}
+	function clearAnswers() {
+		$A($('saveQuestionForm').getElementsByClassName('answers')).each(
+			function(item){
+				item.value = 0;
+				item.checked = false;
+				item.previous('.sequence_number').innerHTML = '';					
+			});
+		sequence_number = 1;		
+	}
+	function beforeSubmit() {
+		$A($('saveQuestionForm').getElementsByClassName('answers')).each(
+			function(item){
+				item.checked = true;
+			});
+		return checkCorrectAnswers('answers');
+	}
+</script>
+<%= error_messages_for 'question' %>
+<%form_for(:question, @question, :url => {:action => 'save_question', :id => @question}, :html => { :id => 'saveQuestionForm'} )  do |form|%>
+	<% unless @topic.editable? %>
+	<h4 class='unactive_info'><%= h @topic.status_message %></h4>
+	<% end %>
+	<label style="display:block">Название</label>
+	<%=form.text_field :name, {:disabled => !@topic.editable?, :style => "width: 100%"}%>
+	<label style="display:block">Тип вопроса</label>
+	<%=form.hidden_field :topic_id%>
+	<%= hidden_field_tag :type, 'SeqQ'%>
+	<label style="display:block">Текст вопроса</label>
+	<%=form.text_area :text, {:disabled => !@topic.editable?, :style => "width: 100%;height: 100px"}%>
+	<%= render :partial => 'question_preview_link'%>	
+	<label style="display:block">Ответы</label>
+	<div style="width:100%" id="answers">
+		<%= render :partial => 'seq_answers'%>
+	</div>
+	<% unless @topic.editable? %>
+	<div class='unactive_button'>Добавить ответ</div>
+	<%else%>
+	<a href='javascript:;' onclick='addAnswer()' class='add_link'><div class='button'>Добавить ответ</div></a>
+	<% end %>
+	<br/>
+	<%= submit_tag 'Сохранить', {:disabled => !@topic.editable?, :onclick => "return beforeSubmit();"}%>
+	<%=link_to "Отмена", {:action => 'topic', :id => @question.topic_id}%>
+<%end%>

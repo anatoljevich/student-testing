@@ -1,0 +1,25 @@
+<h3>Настройки</h3>
+<%= error_messages_for :author %>
+
+<div style="width:250px;float:left;">
+<h4>Изменить пароль</h4>
+<% form_for :author do |f| -%>
+
+<p><label for="password">Новый пароль</label><br/>
+<%= f.password_field :password %></p>
+
+<p><label for="password_confirmation">Подтверждение пароля</label><br/>
+<%= f.password_field :password_confirmation %></p>
+
+<p><%= submit_tag 'Изменить' %></p>
+<% end -%>
+</div>
+<div  style="width:250px;float:left;">
+<% form_for :author do |f| -%>
+<h4>Изменить ФИО</h4>
+<p><label for="fio">ФИО</label><br/>
+<%= f.text_field :fio %></p>
+
+<p><%= submit_tag 'Изменить' %></p>
+<% end -%>
+</div>

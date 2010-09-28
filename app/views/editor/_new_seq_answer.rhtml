@@ -1,0 +1,8 @@
+<div>
+<%= text_field_tag 'answers[]', '', {:style => "width: 80%"}%>
+<span class='inputBox'>
+	<span class='sequence_number'></span>
+	<%= check_box_tag 'results[]', 0, false, :class =>'answers', :onclick => 'selectSeqAnswer($(this));' %>
+</span>
+<a href='javascript:;' onclick='removeAnswer($(this.parentNode))' >Удалить</a>
+</div>

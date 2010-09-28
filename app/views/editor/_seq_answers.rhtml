@@ -1,0 +1,20 @@
+<%
+i = 0
+for i in 0...@answers.size do
+%> 
+	<div style="display:block">
+	<%= text_field_tag 'answers[]', @answers[i].text, {:disabled => !@topic.editable?, :style => "width: 80%"}%>
+	<span class='inputBox'>
+		<span class='sequence_number'><%=@answers[i].value == '0' ? '' : h(@answers[i].value) %></span>
+		<%= check_box_tag 'results[]', (@answers[i].value ? @answers[i].value : 0), (@answers[i].value.to_i == 0 ? false : true), :class => 'answers', :disabled => !@topic.editable?, :onclick => 'selectSeqAnswer($(this));' %>
+	</span>
+	<% unless @topic.editable? %>
+		<span class='unactive_link'>Удалить</span>
+	<% else %>
+		<a href='javascript:;' onclick='removeAnswer($(this.parentNode))' >Удалить</a>
+	<% end %>
+	</div>
+<%
+end
+%>
+

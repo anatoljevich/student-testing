@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>Тестирование</title>
+  <%= javascript_include_tag 'prototype.js','effects.js','common.js', 'user.js' %>  
+  <% if @current_controller == 'user' && @current_action == 'run' %>
+		<%= javascript_include_tag 'exam_features.js'%>
+		<script>
+			var blockExit = true;
+			window.onbeforeunload = function (oEvent) {
+				if (blockExit) {
+			  	oEvent.returnValue = "Вы действительно хотите завершить тест ?";
+				}
+			}
+				//if the browser is IE6
+			if (!window.sidebar) {
+				window.onbeforeunload = function(){
+					if (blockExit) {
+				  	window.event.returnValue = "Вы действительно хотите завершить тест ?";
+				  }
+				}
+			}
+	  	window.onunload = function(){	
+				if (blockExit) {
+					breakTest(); 
+				}
+			}
+
+		</script>
+	<% end %>
+  <%= stylesheet_link_tag 'styles' %>
+</head>
+
+<body>
+	<div id="loading"><%= image_tag "spinner.gif"%>Загрузка...</div>		
+	<iframe id="close" style="border:0;height:0px;width:0px;"></iframe>
+	<div id='javascriptDisabled' style='margin-bottom:16px'>Программа работает некорректно. Включите javascript в вашем браузере</div>
+	<script>$('javascriptDisabled').style.display = 'none'</script>
+	<div id='header'>
+		<%= image_tag 'logo.gif', :id => 'logo'%>
+		<div id="bru">Белорусско - Российский университет</div>
+		<div id="ei">Кафедра "Экономическая информатика"</div>
+	<% if allowed_ip? %>
+		<div id='logged_bar'>
+		<% if logged_in? %>
+			Пользователь: <%= current_author.login %> <%= link_to 'Выйти', :controller => 'account', :action => 'logout'%>
+		<% else %>
+			<%= link_to 'Войти', :controller => 'account', :action => 'login'%> &nbsp
+			<%= link_to 'Регистрация', :controller => 'account', :action => 'signup'%>
+		<% end %>
+		</div>
+	<% end %>
+	</div>
+	<% if logged_in? %>
+	<ul id='tabs' >
+		<%if @current_controller == 'editor'%>
+			<li class='selected'>Дисциплины</li>
+		<%else%>
+			<li><%= link_to 'Дисциплины', {:controller => 'editor'}, :class => 'whiteLink'%></li>
+		<%end%>
+		<%if @current_controller == 'exam'%>
+			<li class='selected' style='border-right: 1px solid #000080;'>Экзамены</li>
+		<%else%>
+			<li style='border-right: 1px solid #000080;'><%= link_to 'Экзамены', {:controller => 'exam'}, :class => 'whiteLink'%></li>
+		<%end%>
+	</ul>
+	<div style="clear:both;"></div>
+	<% end %>
+	<div id='content'>
+		<div class='flash'><%=flash[:notice]%></div>
+		<div><%=yield%></div>
+	</div>
+	<div id='footer'>
+		<div id='bru_address'>212005, РБ, г.Могилев, пр.Мира, 43 </div>
+		<div id='bru_phone'>Тел.:+375 (222) 31-13-55</div>
+	</div>
+</body>
+
+</html>

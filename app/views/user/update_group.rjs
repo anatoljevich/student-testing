@@ -1,0 +1,6 @@
+if @group.new_record?
+  page.replace_html 'group_messages', :partial => 'group_errors'
+else
+  page.replace_html 'group_select_box', :partial => 'group_select_box'
+  page.replace_html 'group_messages', "<div class='successFont'>Группа #{@group.name} добавлена в список</div>"
+end

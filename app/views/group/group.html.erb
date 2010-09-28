@@ -1,0 +1,17 @@
+<%= link_to '<div class="button">Добавить студента</div>', {:action => 'new_student', :id => @group }, :class => 'add_link' %>
+<%= link_to 'Назад', {:action => 'index'}%>
+<h3 class='title'>Группа: <%= h @group.name %>
+(<%= link_to 'Изменить', { :action => 'edit_group', :id => @group }, :class => 'blueLink mediumFont' %>)
+</h3>
+<table class='main_t wide'>
+<tr><th>№</th><th>ФИО</th><th></th></tr>
+<%for s in @students%>
+<tr>
+	<td><%= h s.code %></td>
+	<td><%= link_to s.fio, {:action => 'student', :id => s}, :class => 'blueLink' %></td>
+	<td>
+		<%= link_to 'Удалить', {:action => 'delete_student', :id => s}, :confirm => "Удалить студента #{s.fio} из списка группы?", :class => 'blueLink'%>
+	</td>
+</tr>
+<%end%>
+</table>

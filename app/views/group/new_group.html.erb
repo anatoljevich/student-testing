@@ -1,0 +1,16 @@
+<div style='width:50%'>
+<h3>Добавить группу в справочник</h3>
+<%= error_messages_for 'group' %>
+<%form_for(:group, @group, :url => {:action => 'add_group'})  do |form|%>
+	<label style="display:block">Название группы (Например ЭУП-61)</label>
+	<div style="padding: 10px 8px;">
+	<table border='0'><tr>
+		<td><%=form.text_field :spec, {:style => "width: 50px;"}%></td>
+		<td>-</td>  
+		<td><%=form.text_field :number, {:style => "width: 50px;"}%></td>
+	</tr></table>
+	</div>
+	<input type="submit" value="Ok">
+	<%=link_to "Отмена", {:action => 'index'}%>
+<%end%>
+</div>

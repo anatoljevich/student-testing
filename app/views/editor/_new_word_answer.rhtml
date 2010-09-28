@@ -1,0 +1,4 @@
+<div>
+<%= text_field_tag 'answers[]', '', {:style => "width: 80%", :onkeyup => 'blockComma($(this));'}%>
+<a href='javascript:;' onclick='removeAnswer($(this.parentNode))' >Удалить</a>
+</div>

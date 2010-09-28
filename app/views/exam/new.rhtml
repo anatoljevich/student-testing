@@ -1,0 +1,14 @@
+<table width='100%'>
+	<tr><td width='30%'>&nbsp</td>
+	<td>
+<div style='width:100%'>
+<h3>Создать тест</h3>
+<%= error_messages_for 'exam'%>
+<%form_for(:exam, @exam, :url => {:action => 'create', :id => @exam}, :html => { :id => 'createExamForm'} )  do |form|%>
+	<%= render :partial => 'exam_fields', :locals => { :form => form } %>
+<%end%>
+</div>		
+	</td>
+	<td width='30%'>&nbsp</td></tr>
+</table>
+<%= javascript_include_tag 'dynamic_topics.js'%>

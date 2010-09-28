@@ -1,0 +1,5 @@
+<%
+examResult = session[:examResult]
+q = Question.find_by_id examResult.questions[examResult.qnumber]
+%>
+<%=q.name%>

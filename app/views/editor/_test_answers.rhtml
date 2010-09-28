@@ -1,0 +1,23 @@
+<%
+i = 0
+for i in 0...@answers.size do
+%> 
+	<div style="display:block">
+	<%= text_field_tag 'answers[]', @answers[i].text, {:disabled => @active_discipline, :style => "width: 80%"}%>
+	<span class='inputBox'>
+		<%if @question.multivariant%>
+		<%= check_box_tag 'results[]', i, @answers[i].value, :class => 'answers', :disabled => !@topic.editable? %>
+		<%else%>
+		<%= radio_button_tag 'results[]', i, @answers[i].value, :class =>'answers', :disabled => !@topic.editable? %>	
+		<%end%>
+	</span>
+	<% unless @topic.editable? %>
+		<span class='unactive_link'>Удалить</span>
+	<% else %>
+		<a href='javascript:;' onclick='removeAnswer($(this.parentNode))' >Удалить</a>
+	<% end %>
+	</div>
+<%
+end
+%>
+

@@ -1,0 +1,10 @@
+<div style='width:50%'>
+<h3>Создать новую дисциплину</h3>
+<%= error_messages_for 'disc' %>
+<%form_for(:discipline, @discipline, :url => {:action => 'add_discipline'})  do |form|%>
+	<label style="display:block">Название</label>
+	<%=form.text_field :name, {:style => "width: 100%;display:block;"}%>
+	<input type="submit" value="Создать">
+	<%=link_to "Отмена", {:action => 'index'}%>
+<%end%>
+</div>

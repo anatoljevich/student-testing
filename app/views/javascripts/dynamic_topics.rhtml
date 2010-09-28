@@ -1,0 +1,31 @@
+var topics = new Array();
+<% for top in @topics -%>
+	topics.push(new Array(<%= top.discipline_id %>, '<%=h top.name %>', <%= top.id %>));
+<% end -%>
+function updateTopics(discipline) {
+	topic_id = discipline.value;
+	var target = discipline.next('.topic_box').down('select');
+	options = target.options;
+	options.length = 0;
+	$A(topics).each(function(top) {
+		if (top[0] == topic_id) {
+			options[options.length] = new Option(top[1], top[2]);
+			}
+	});
+	if (options.length == 0) {
+		target.up('.topic_box').hide();
+	} else {
+		target.up('.topic_box').show();
+	}
+}
+function hide_empty_selects(){
+	boxes = document.getElementsByClassName('topic_box');
+	$A(boxes).each(function(box){
+		sel = box.down('select');
+		if (sel.options.length == 0)
+			box.hide();
+		else 
+			box.show();
+	});	
+}
+hide_empty_selects();

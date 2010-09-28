@@ -1,0 +1,47 @@
+<h4>Дисциплина: <%= h discipline_names(@exam) %></h4>
+<h4>Дата      : <%= h Time.now.strftime("%d.%m.%y") %></h4>
+<h4>Список тем</h4>
+<table>
+	<% for i in 0...@topics.size%>
+	<tr>
+		<td><%= i+1 %></td>
+		<td><%= @topics[i].topic.name %></td>
+	</tr>
+	<% end %>
+</table><br>
+<h4>Результат</h4>
+<table width="100%">
+<tr><th rowspan='2'>№</th><th rowspan='2'>Студент</th><th rowspan='2'>Группа</th><th rowspan='2'>Дата</th><th colspan='<%=(@exam.examTopics.size+2)%>'>%</th><th rowspan='2'>Оценка</th></tr>
+<tr>
+	<% for i in 0...@topics.size %>
+		<th><%= i+1 %></th>
+	<% end %>
+	<th>По темам</th>
+	<th>Средний</th>
+</tr>
+<% for i in 0...@entities.size
+entity = @entities[i]
+%>
+<% if entity.complete %>
+<tr>
+	<td><%= i+1%></td>
+	<td><%= h entity.student.fio %></td>
+	<td><%= h entity.group.name %></td>
+	<td><%= entity.created_at.strftime("%d.%m.%y") %></td>
+	<% for etopic in @topics %>
+		<td>
+			<% res = entity.examEntityResults.find(:first, :conditions => ["topic_id = ?", etopic.topic_id ]) %>
+			<% if res%>
+				<%= (res.correct*100/res.total).round %> <!-- (<%= res.correct %> из <%= res.total%>) -->
+			<% end %>
+		</td>
+	<% end %>
+	<td><%=entity.passed_percent%> <!-- (<%= entity.success_topics%> из <%=entity.total_topics %>)</td> -->
+	<td><%=entity.average%></td>
+	<td><%= score(entity) if entity.complete %></td>
+</tr>
+<% end %>
+<% end %>
+</table>
+
+

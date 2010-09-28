@@ -1,0 +1,11 @@
+<div>
+<%= text_field_tag 'answers[]', '', {:style => "width: 80%"}%>
+<span class='inputBox'>
+	<%if params[:multi] == 'true'%>
+	<%= check_box_tag 'results[]', params[:count], false, :class =>'answers' %>
+	<%else%>
+	<%= radio_button_tag 'results[]', params[:count], false, :class =>'answers' %>
+	<%end%>
+</span>
+<a href='javascript:;' onclick='removeAnswer($(this.parentNode))' >Удалить</a>
+</div>

@@ -1,0 +1,20 @@
+<label style="display:block">Тип</label>
+<%= form.select :exam_variant, Tests::Config::exam_variants.to_a.collect { |v| [v[1], v[0]] }, {:include_blank => '- Выберите тип теста -'} %>
+
+<label style="display:block">Описание</label>
+<%=form.text_area :description, {:style => "width:100%;height:50px;"}%>
+
+<label style="display:block">Время на выполнение, мин</label>
+<%=form.text_field :duration, {:value => @exam ? @exam.duration : Exam.DEFAULT_DURATION}%>	
+
+<label style="display:block">Положительный результат, %</label>
+<%=form.text_field :passing_score, {:value => @exam ? @exam.passing_score : Exam.DEFAULT_PASSING_SCORE}%>	
+
+<div id='exam_topics_box'>
+	<%= render :partial => 'exam_topic', :collection => @exam.examTopics%>
+</div>
+
+<%= add_topic_link "Добавить тему"%>
+
+<%= submit_tag 'Сохранить', :disabled => @exam.active %>
+<%=link_to "Отмена", {:action => 'index'}%>

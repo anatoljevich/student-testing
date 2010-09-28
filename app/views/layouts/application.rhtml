@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>Тестирование</title>
+  <%= javascript_include_tag 'prototype.js', 'effects.js', 'common.js', 'application.js' %>  
+  <%= calendar_date_select_includes nil, :locale => 'ru', :style => 'plain' %>
+  <%= stylesheet_link_tag 'styles' %>
+</head>
+<body>
+	<div id="loading"><%= image_tag "spinner.gif"%>Загрузка...</div>	
+	<div id='header'>
+		<%= image_tag 'logo.gif', :id => 'logo'%>
+		<div id="bru"></div>
+		<div id="ei">Тестирование</div>
+	<% if allowed_ip? %>
+		<div id='logged_bar'>
+		<% if logged_in? %>
+			Пользователь: <%= current_author.login %> <%= link_to 'Выйти', :controller => 'account', :action => 'logout'%>
+		<% else %>
+			<%= link_to 'Войти', :controller => 'account', :action => 'login'%> &nbsp
+			<%= link_to 'Регистрация', :controller => 'account', :action => 'signup'%>
+		<% end %>
+		</div>
+	<% end %>
+	</div>
+	<% if logged_in? %>
+	<ul id='tabs' >
+		<%if @current_controller == 'editor'%>
+			<li class='selected'>Дисциплины</li>
+		<%else%>
+			<li><%= link_to 'Дисциплины', {:controller => 'editor'}, :class => 'whiteLink'%></li>
+		<%end%>
+		<%if @current_controller == 'group'%>
+			<li class='selected'>Группы</li>
+		<%else%>
+			<li><%= link_to 'Группы', {:controller => 'group'}, :class => 'whiteLink'%></li>
+		<%end%>
+		<%if @current_controller == 'exam' || @current_controller == 'report'%>
+			<li class='selected'>Тесты</li>
+		<%else%>
+			<li><%= link_to 'Тесты', {:controller => 'exam'}, :class => 'whiteLink'%></li>
+		<%end%>
+		<%if @current_controller == 'stat'%>
+			<li class='selected'>Статистика</li>
+		<%else%>
+			<li><%= link_to 'Статистика', {:controller => 'stat'}, :class => 'whiteLink'%></li>
+		<%end%>
+		<%if @current_controller == 'settings'%>
+			<li class='selected' style='border-right: 1px solid #000080;'>Настройки</li>
+		<%else%>
+			<li style='border-right: 1px solid #000080;'><%= link_to 'Настройки', {:controller => 'settings'}, :class => 'whiteLink'%></li>
+		<%end%>
+	</ul>
+	<div style="clear:both;"></div>
+	<% end %>
+	<div id='content'>
+		<div class='flash'><%=flash[:notice]%></div>
+		<div>
+			<%= yield %>
+			<div style='clear:both'></div>
+		</div>
+	</div>
+	<div id='footer'>
+		<div id='bru_address'>Адрес</div>
+		<div id='bru_phone'>Тел.:</div>
+	</div>
+</body>
+</html>

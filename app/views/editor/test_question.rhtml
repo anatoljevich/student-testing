@@ -1,0 +1,85 @@
+<script type='text/javascript'>
+	var answers_count = <%=@question.get_answers.size%>;
+	var multi = <%=@question.multivariant%>;
+	function addAnswer(){
+		answers_count += 1;
+		cnt = answers_count - 1;
+		new Ajax.Request('/editor/add_test_answer', 
+			{
+				asynchronous:true, 
+				evalScripts:true,
+				parameters: {count: cnt, multi: multi},
+			    onFailure: function(){ alert('Javascript Error') },
+				onLoading: function(){ show_loading()},
+				onComplete: function() {hide_loading()}
+			}); 
+		return false;				
+	};
+	function removeAnswer(a){
+		if (confirm("Удалить вариант ответа?")) {
+			a.remove();
+			answers_count = 0;
+			 $A($('saveQuestionForm').getElementsByClassName('answers')).each(
+				function(item){
+					item.value = answers_count;
+					answers_count += 1;
+				});
+		}
+		return false;
+	};
+	function changeVariant(multivar) {
+		$A($('saveQuestionForm').getElementsByClassName('inputBox')).each(
+			function(item){
+				var t;
+				nodes = item.childNodes
+				for (var i=0;i < nodes.length; i++)
+				{
+					if (nodes[i].tagName == 'INPUT') {
+						t = "<INPUT";
+						if (multivar) {
+							t +=" type=checkbox";
+							multi = true;
+						}
+						else {
+							t +=" type=radio";
+							multi = false;
+						}
+						t +=" value="+nodes[i].value+" name="+nodes[i].name+" class="+nodes[i].className+" />";
+						//if (nodes[i].checked) t += " checked";
+					}
+				}
+				item.innerHTML = t;
+			});
+	}
+
+</script>
+<%= error_messages_for 'question' %>
+<%form_for(:question, @question, :url => {:action => 'save_question', :id => @question}, :html => { :id => 'saveQuestionForm'} )  do |form|%>
+	<% unless @topic.editable? %>
+	<h4 class='unactive_info'><%= h @topic.status_message %></h4>
+	<% end %>
+	<label style="display:block">Название</label>
+	<%=form.text_field :name, {:disabled => !@topic.editable?, :style => "width: 100%"}%>
+	<label style="display:block">Тип вопроса</label>
+	<%=form.hidden_field :topic_id%>
+	<%= hidden_field_tag :type, 'TestQ'%>
+	<%=form.radio_button :multivariant, 'false', {:disabled => !@topic.editable?, :onclick => 'changeVariant(false)'}%>
+	<label>Одновариантный</label>		
+	<%=form.radio_button :multivariant, 'true', {:disabled => !@topic.editable?, :onclick => 'changeVariant(true)'}%>
+	<label>Многовариантный</label>
+	<label style="display:block">Текст вопроса</label>
+	<%=form.text_area :text, {:disabled => !@topic.editable?, :style => "width: 100%;height: 100px"}%>
+	<%= render :partial => 'question_preview_link'%>	
+	<label style="display:block">Ответы</label>
+	<div style="width:100%" id="answers">
+		<%= render :partial => 'test_answers'%>
+	</div>
+	<% unless @topic.editable? %>
+	<div class='unactive_button'>Добавить ответ</div>
+	<%else%>
+	<a href='javascript:;' onclick='addAnswer()' class='add_link'><div class='button'>Добавить ответ</div></a>
+	<% end %>
+	<br/>
+	<%= submit_tag 'Сохранить', {:disabled => !@topic.editable?, :onclick => "return checkCorrectAnswers('answers');"}%>
+	<%=link_to "Отмена", {:action => 'topic', :id => @question.topic_id}%>
+<%end%>

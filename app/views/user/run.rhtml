@@ -1,0 +1,46 @@
+<div id='run_Container'>
+<%= periodically_call_remote :url => { :action => 'duration'}, :frequency => 30 %>	
+<table border='0' width='100%'>
+	<tr>
+		<td width='20%' style='vertical-align:top;'>
+		<div class='test_title'>
+			<p>Идентификатор: <%= @examEntity.id%></p>			
+			<p>Студент: <%= h @examEntity.student.fio%></p>
+			<p>Группа: <%= h @examEntity.group.name%></p>
+		</div>
+		</td>
+		<td>
+			<div id='current_answer'>
+				<%= render :partial => 'current_answer'%>
+			</div>			
+		</td>
+		<td width='20%'>
+			<table width='100%' height='100%' border='0'>
+				<tr>
+					<td align='center'>
+						<div style="padding-bottom: 30px">
+						<% form_remote_tag_loading :url => url_for(:action =>'break_test'), :confirm => "Вы действительно хотите прервать тест ?" do -%>
+						<%= submit_tag 'Прервать тест'%>
+						<% end %>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+							<div>
+								<div style='text-align:center;'>Осталось вопросов:</div>
+								<div id='questions_left'><%= @examEntity.questions_left %></div>
+							</div>
+							<div id='time_block'>
+								<div style='text-align:center;'>Осталось минут:</div>
+								<div id='minutes_left'><%= @examEntity.minutes_left %></div>
+							</div>
+					</td>					
+				</tr>
+			</table>
+		</td>					
+	</tr>
+</table>
+</div>
+
+

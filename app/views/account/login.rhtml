@@ -1,0 +1,23 @@
+<table width='100%'><tr>
+	<td width='40%'>&nbsp</td>
+	<td>
+	<div style="width:100%;">
+	<% form_tag do -%>
+	<p><label for="login">Логин</label><br/>
+	<%= text_field_tag 'login','',{:style => 'width:70%;'} %></p>
+	
+	<p><label for="password">Пароль</label><br/>
+	<%= password_field_tag 'password','',{:style => 'width:70%;'}%></p>
+	
+	<!-- Uncomment this if you want this functionality
+	<p><label for="remember_me">Remember me:</label>
+	<%= check_box_tag 'remember_me' %></p>
+	-->
+	
+	<p><%= submit_tag 'Войти' %></p>
+	<% end -%>
+	</div>
+	</td>
+	<td width='40%'>&nbsp</td>
+</tr>
+</table>

@@ -1,0 +1,17 @@
+<div id='stat_tabs'>
+<% if @current_action == 'topic' || @current_action == 'topic_report' %>
+	<div>По темам</div>
+<% else %>
+	<div><%= link_to 'По темам', :action => 'topic' %></div>
+<% end %>
+<% if @current_action == 'group' || @current_action == 'group_report' %>
+	<div>По группам</div>
+<% else %>
+	<div><%= link_to 'По группам', :action => 'group'%></div>
+<% end %>
+<% if @current_action == 'question' || @current_action == 'question_report' %>
+	<div>По вопросам</div>
+<% else %>
+	<div><%= link_to 'По вопросам', :action => 'question'%></div>
+<% end %>
+</div>

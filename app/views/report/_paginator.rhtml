@@ -1,0 +1,5 @@
+<%=link_to "&lt;&lt;", {:action => 'list', :id => @exam, :page => (@entities.previous_page)}, :class => 'blueLink' %>
+<%=@entities.current_page%> of <%=@entities.total_pages%>
+<%=link_to "&gt;&gt;", {:action => 'list', :id => @exam, :page => (@entities.next_page)}, :class => 'blueLink' %>
+
+

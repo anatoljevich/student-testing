@@ -1,0 +1,22 @@
+<table border='0' width='100%'>
+	<tr>
+		<td width='30%'>&nbsp</td>
+		<td>
+			<p class='test_title'>Тест: <%=@exam.description%></p>
+			<%= error_messages_for :examEntity%>
+			<h3>Выберите группу и Ф.И.О</h3>
+			<%form_tag url_for({:action => 'start', :id => @exam}), {:onsubmit => 'disableSubmit(this)'} do %>
+			<table border='0'>
+				<tr><td><label>Группа</label></td></tr>
+				<tr><td><%= select :student,:group_id, Group.find(:all, :order => 'spec, number' ).collect { |g| [g.name, g.id] }, {:include_blank => '- Выберите группу -'}, {:onchange => "fillStudentsList(this.value)"} %></td></tr>				
+				<tr><td><label>Ф.И.О</label></td></tr>
+				<tr><td id='student_select_box'><%= render :partial => 'student_select_box'%></td></tr>
+				<tr><td><input type="submit" value="Старт" style="margin-right:10px;"><a href="javascript:;" class="blueLink" onclick="window.close();">Отмена</a></td></tr>								
+			</table>
+			<%end%>
+		</td>
+		<td width='30%'>&nbsp</td>					
+	</tr>
+</table>
+
+

@@ -1,0 +1,25 @@
+<%= error_messages_for :author %>
+<table width='100%'><tr>
+	<td width='40%'>&nbsp</td>
+	<td>
+	<div style="width:100%;">
+	<% form_for :author do |f| -%>
+	<p><label for="login">Логин</label><br/>
+	<%= f.text_field :login %></p>
+	
+	<p><label for="login">ФИО</label><br/>
+	<%= f.text_field :fio %></p>
+	
+	<p><label for="password">Пароль</label><br/>
+	<%= f.password_field :password %></p>
+	
+	<p><label for="password_confirmation">Подтверждение пароля</label><br/>
+	<%= f.password_field :password_confirmation %></p>
+	
+	<p><%= submit_tag 'Регистрация' %></p>
+	<% end -%>
+	</div>
+	</td>
+	<td width='40%'>&nbsp</td>
+</tr>
+</table>
