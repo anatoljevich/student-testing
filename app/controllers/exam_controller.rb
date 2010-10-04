@@ -1,6 +1,8 @@
 class ExamController < ApplicationController
   before_filter :login_required
   before_filter :init_exam, :only => [:edit, :update, :start_stop, :delete]
+  skip_before_filter :verify_authenticity_token, :only => [:start_stop]
+
   def index
     @exams = Exam.find :all
   end
