@@ -18,7 +18,7 @@ class Group < ActiveRecord::Base
       errors.add_to_base 'Необходимо ввести номер группы'
     end
     
-    if Group.find_by_spec_and_number spec.chars, number
+    if Group.find_by_spec_and_number spec, number
       errors.add_to_base 'Указанная группа существует'
     end
   end

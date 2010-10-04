@@ -8,13 +8,13 @@ class ApplicationController < ActionController::Base
   before_filter :instantiate_controller_and_action_names
   include AuthenticatedSystem
 
-  def set_charsets
-    if request.xhr?
-      request.headers["Content-Type"] = "text/javascript; charset=windows-1251"
-    else
-      request.headers["Content-Type"] = "text/html; charset=windows-1251"
-    end
-  end
+#  def set_charsets
+#    if request.xhr?
+#      request.headers["Content-Type"] = "text/javascript; charset=windows-1251"
+#    else
+#      request.headers["Content-Type"] = "text/html; charset=windows-1251"
+#    end
+#  end
 
   def instantiate_controller_and_action_names
     @current_action = action_name

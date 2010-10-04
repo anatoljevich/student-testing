@@ -32,13 +32,13 @@ ActiveRecord::Schema.define(:version => 20090618081847) do
     t.boolean  "complete",                       :default => false
     t.datetime "created_at"
     t.datetime "finished_at"
-    t.integer  "success_topics", :limit => 1
-    t.integer  "total_topics",   :limit => 1
+    t.integer  "success_topics", :limit => 2
+    t.integer  "total_topics",   :limit => 2
     t.integer  "group_id"
     t.integer  "student_id"
     t.string   "exam_variant",   :limit => 1
-    t.integer  "score",          :limit => 1
-    t.integer  "average",        :limit => 1
+    t.integer  "score",          :limit => 2
+    t.integer  "average",        :limit => 2
   end
 
   create_table "exam_entity_results", :force => true do |t|
@@ -69,7 +69,7 @@ ActiveRecord::Schema.define(:version => 20090618081847) do
   create_table "groups", :force => true do |t|
     t.integer "students_count",               :default => 0
     t.string  "spec",           :limit => 16
-    t.integer "number",         :limit => 1
+    t.integer "number",         :limit => 2
   end
 
   create_table "questions", :force => true do |t|
