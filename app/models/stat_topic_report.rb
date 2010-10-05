@@ -32,7 +32,7 @@ class StatTopicReport < StatisticReport
     condition = "WHERE #{conditions.join(' AND ') }"
    
 #    ExamEntity.find_by_sql "SELECT id, name, correct, total, ROUND(correct*100/total) AS answer_percent, success_count, total_count, ROUND(success_count*100/total_count) AS total_percent FROM topics JOIN ( SELECT topic_id, sum(correct) AS correct, sum(total) AS total, sum(success) AS success_count, count(*) AS total_count FROM exam_entity_results #{condition} GROUP BY topic_id) AS t2 ON t2.topic_id = topics.id ORDER BY total_percent DESC"
-    ExamEntity.find_by_sql "SELECT id, name, success_topics, total_topics, percent, average_percent FROM topics AS t1 JOIN (SELECT topic_id, ROUND(success_topics*100/total_topics) AS percent, success_topics, total_topics, ROUND(average*100) AS average_percent FROM (SELECT topic_id, sum(success) AS success_topics, count(*) AS total_topics, avg(correct/total) AS average FROM exam_entity_results #{condition} GROUP BY topic_id ) AS t2) as t3 ON t1.id = t3.topic_id;"
+    ExamEntity.find_by_sql "SELECT id, name, success_topics, total_topics, percent, average_percent FROM topics AS t1 JOIN (SELECT topic_id, ROUND(success_topics*100/total_topics) AS percent, success_topics, total_topics, ROUND(average*100) AS average_percent FROM (SELECT topic_id, sum(success::boolean::int) AS success_topics, count(*) AS total_topics, avg(correct/total) AS average FROM exam_entity_results #{condition} GROUP BY topic_id ) AS t2) as t3 ON t1.id = t3.topic_id;"
   end
   
 end
