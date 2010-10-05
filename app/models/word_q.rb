@@ -46,9 +46,9 @@ class WordQ < Question
     return false unless user_answer
     result = false
     # I used 'chars' method to compare multibyte strings correctly
-    correct_answer.chars.split(",").each {
+    correct_answer.split(",").each {
       |x|
-      if x.chars.downcase == user_answer.chars.downcase
+      if x.downcase == user_answer.downcase
         return true
       end
     }
