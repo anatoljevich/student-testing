@@ -1,11 +1,11 @@
 // Disabling copy to clipboard
 function disabletext(e){
-	if (e.target.id != "answers[]")
-	return false
+    if (e.target.name != "answers[]") return false;
+    return true;
 }
 
 function reEnable(){
-	return true
+    return true
 }
 document.onselectstart=new Function ("return false")
 
