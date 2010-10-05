@@ -39,8 +39,8 @@
 	<script>$('javascriptDisabled').style.display = 'none'</script>
 	<div id='header'>
 		<%= image_tag 'logo.gif', :id => 'logo'%>
-		<div id="bru">Белорусско - Российский университет</div>
-		<div id="ei">Кафедра "Экономическая информатика"</div>
+		<div id="bru"></div>
+		<div id="ei"></div>
 	<% if allowed_ip? %>
 		<div id='logged_bar'>
 		<% if logged_in? %>
@@ -72,8 +72,8 @@
 		<div><%=yield%></div>
 	</div>
 	<div id='footer'>
-		<div id='bru_address'>212005, РБ, г.Могилев, пр.Мира, 43 </div>
-		<div id='bru_phone'>Тел.:+375 (222) 31-13-55</div>
+		<div id='bru_address'></div>
+		<div id='bru_phone'></div>
 	</div>
 </body>
 
