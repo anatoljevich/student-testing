@@ -169,11 +169,11 @@ class EditorController < ApplicationController
   end
 
   def init_question
-    @question = Question.find_by_id_and_deleted(params[:id], false)    
+    @question = Question.find_by_id_and_deleted(params[:id].to_i, false)
   end
   
   def init_discipline
-    @discipline = Discipline.find_by_id(params[:id])    
+    @discipline = Discipline.find_by_id(params[:id].to_i)
   end
   
   def init_topic
