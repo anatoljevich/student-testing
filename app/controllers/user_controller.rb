@@ -14,7 +14,7 @@ class UserController < ApplicationController
   end
   
   def list_students
-    @students = Student.find :all, :conditions => ["group_id=?", params[:id]], :order => "surname"
+    @students = Student.find :all, :conditions => ["group_id = ?", params[:id].to_i], :order => "surname"
     render :action => 'update_students_list'
   end
   
@@ -44,7 +44,7 @@ class UserController < ApplicationController
     #вдруг в сессии осталась информация с прошлого запуска
     session[:examEntity] = nil
     
-    @exam = Exam.find_by_id_and_active(params[:id],true)
+    @exam = Exam.find_by_id_and_active(params[:id].to_i,true)
     @examEntity = @exam.examEntities.build(params[:student])
     unless @examEntity.save
       render :action => 'auth' and return

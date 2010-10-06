@@ -75,7 +75,7 @@ FROM groups AS t5 JOIN (
       SELECT sum(correct) AS correct_questions, sum(total) AS total_questions, t2.id, group_id, success_topics, total_topics, finished_at
         FROM exam_entity_results AS t1
         JOIN exam_entities AS t2 ON t1.exam_entity_id = t2.id
-        WHERE topic_id = 5 AND (DATE(finished_at) BETWEEN '2008-11-18' AND '2008-11-18')
+        WHERE #{conditions}
         GROUP BY group_id, t2.id, t2.success_topics, t2.total_topics, t2.finished_at
     ) AS t3
   GROUP BY group_id

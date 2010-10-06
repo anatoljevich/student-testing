@@ -9,8 +9,8 @@ class ExamEntity < ActiveRecord::Base
   attr_reader :number_of_questions
 
   def initialize(params)
-    st = Student.find_by_id params[:student_id]
-    gr = Group.find_by_id params[:group_id]
+    st = Student.find_by_id params[:student_id].to_i
+    gr = Group.find_by_id params[:group_id].to_i
     @fio_validation_fails = true if st.nil?
     @group_validation_fails = true if gr.nil?
     @number_of_questions = 0
