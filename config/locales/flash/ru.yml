@@ -1,0 +1,5 @@
+ru:
+  author_renamed: Автор успешно переименован
+  author_not_renamed: Ошибка при переименовании автора
+  author_password_changed: Пароль успешно изменен
+  author_password_not_changed: Ошибка при изменении пароля

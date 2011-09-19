@@ -1,0 +1,5 @@
+en:
+  author_renamed: Author has been successfully renamed
+  author_not_renamed: Unable to rename author
+  author_password_changed: Password has been successfully changed
+  author_password_not_changed: Unable to change password

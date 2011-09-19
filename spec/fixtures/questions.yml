@@ -1,0 +1,33 @@
+one:
+  id: 1
+  topic_id: 1
+  author_id: 1
+  multivariant: false
+  name: Capital of France
+  text: What is the capital of France ?
+  answers: <ans><a>Lion</a><a correct='true'>Paris</a><a>Clermont-Ferrand</a></ans>
+  type: TestQ
+  deleted: false
+
+two:
+  id: 2
+  topic_id: 1
+  author_id: 1
+  multivariant: true
+  name: Capitals of the Europe
+  text: What cities in the list are the capitals of their countries ?
+  answers: <ans><a correct='true'>London</a><a correct='true'>Madrid</a><a>Munich</a><a>Milan</a></ans>
+  type: TestQ
+  deleted: false
+
+three:
+  id: 3
+  topic_id: 1
+  author_id: 1
+  multivariant: false
+  name: Capital of Russia
+  text: What is the capital of the Russia ?
+  answers: <ans><a>Moscow</a></ans>
+  type: WordQ
+  deleted: false
+  

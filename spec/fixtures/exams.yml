@@ -1,0 +1,7 @@
+capitals:
+  id: 1
+  description: Capitals
+  duration: 5
+  passing_score: 50
+  active: true
+  exam_variant: b

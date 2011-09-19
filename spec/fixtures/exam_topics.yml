@@ -1,0 +1,9 @@
+one:
+  id: 1
+  topic_id: 1
+  count: 3
+  passing_score: 50
+  exam_id: 1
+  important: true
+
+
